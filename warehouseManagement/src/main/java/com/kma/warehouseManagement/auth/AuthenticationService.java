@@ -58,9 +58,22 @@ public class AuthenticationService {
         var user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder()
+        AuthenticationResponse authenticationResponse = AuthenticationResponse.builder()
                 .token(jwtToken)
+                .id(user.getId())
+                .name(user.getName())
+                .email(user.getEmail())
+                .password(user.getPassword())
+                .username(user.getUsername())
+                .phone(user.getPhone())
+                .storageId(user.getStorageId())
+                .marketId(user.getMarketId())
+                .role(user.getRole())
                 .build();
+        return authenticationResponse;
+//        return AuthenticationResponse.builder()
+//                .token(jwtToken)
+//                .build();
     }
 }
 
