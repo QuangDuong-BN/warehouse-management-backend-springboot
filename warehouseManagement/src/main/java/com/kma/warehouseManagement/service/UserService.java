@@ -54,9 +54,6 @@ public class UserService {
         if (role == RoleUser.STOCKER) {
             throw new AccessDeniedException("You don't have permission to access this resource");
         }
-        if (role == RoleUser.ADMIN) {
-            throw new AccessDeniedException("Admin don't have api: /storage/GetList");
-        }
         return findAllByMarketId(userRepository.findByUsername(username).get().getMarketId());
     }
 
