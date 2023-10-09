@@ -88,13 +88,22 @@ public class OrderService {
         for (int i = 0; i < productDto2List.size(); i++) {
             Integer id = productDto2List.get(i).getId();
             Integer soLuong = productDto2List.get(i).getSoLuong();
-            if(productRepository.findByIdAndStorageId(id,orderDto.getStorageId()).isEmpty()){
+            if (productRepository.findByIdAndStorageId(id, orderDto.getStorageId()).isEmpty()) {
                 throw new BadRequestException("So luong trong kho khong du");
             }
-            Integer soLuongTrongKho = productRepository.findByIdAndStorageId(id,orderDto.getStorageId()).get().getSoLuong();
+            Integer soLuongTrongKho = productRepository.findByIdAndStorageId(id, orderDto.getStorageId()).get().getSoLuong();
             if (soLuongTrongKho < soLuong) {
                 throw new BadRequestException("So luong trong kho khong du");
             }
+        }
+
+        // tru so luong trong kho
+        for (int i = 0; i < productDto2List.size(); i++) {
+            Integer id = productDto2List.get(i).getId();
+            Integer soLuong = productDto2List.get(i).getSoLuong();
+            Integer soLuongTrongKho = productRepository.findByIdAndStorageId(id, orderDto.getStorageId()).get().getSoLuong();
+            Integer soLuongConLai = soLuongTrongKho - soLuong;
+            productRepository.updateProductById(id, soLuongConLai);
         }
 
         Integer itemId = generateRandomNumber();
@@ -116,6 +125,47 @@ public class OrderService {
             item.setProductId(productDto2.get(i).getId());
             item.setSoLuong(productDto2.get(i).getSoLuong());
             itemRepository.save(item);
+        }
+    }
+
+
+    //Accepted Order
+    public void acceptOrder(HttpServletRequest request, Integer id) {
+        String username = userService.getUsernameByToken(request);
+        RoleUser role = userRepository.findByUsername(username).get().getRole();
+        if (role == RoleUser.SALER) {
+            throw new AccessDeniedException("You don't have permission to access this resource");
+        }
+        Order order = orderRepository.findById(id).get();
+        order.setStatus(StatusOrder.ACCEPTED);
+        orderRepository.save(order);
+
+
+    }
+
+    // cancel Order
+    public void cancelOrder(HttpServletRequest request, Integer id) {
+        String username = userService.getUsernameByToken(request);
+        RoleUser role = userRepository.findByUsername(username).get().getRole();
+        if (role == RoleUser.SALER) {
+            throw new AccessDeniedException("SALER don't have permission to access this resource");
+        }
+        Order order = orderRepository.findById(id).get();
+        order.setStatus(StatusOrder.CANCELLED);
+        orderRepository.save(order);
+
+        // cong so luong trong kho
+        List<ProductDto2> productDto2List = getLineItemByOderId(orderRepository.findById(id).get().getItemId());
+        System.out.println(productDto2List.toString());
+        for (int i = 0; i < productDto2List.size(); i++) {
+            Integer idProduct = productDto2List.get(i).getId();
+            Integer soLuong = productDto2List.get(i).getSoLuong();
+            System.out.println(soLuong);
+            Integer soLuongTrongKho = productRepository.findByIdAndStorageId(idProduct, order.getStorageId()).get().getSoLuong();
+            System.out.println(soLuongTrongKho);
+            Integer soLuongConLai = soLuongTrongKho + soLuong;
+            System.out.println(soLuongConLai);
+            productRepository.updateProductById(idProduct, soLuongConLai);
         }
     }
 

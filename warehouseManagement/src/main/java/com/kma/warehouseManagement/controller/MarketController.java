@@ -37,6 +37,5 @@ public class MarketController {
         marketRepository.deleteMarketById(id);
         return ResponseEntity.ok("success");
     }
-
 }
 

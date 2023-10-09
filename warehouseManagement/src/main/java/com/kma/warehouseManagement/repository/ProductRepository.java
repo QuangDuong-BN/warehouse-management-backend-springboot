@@ -4,6 +4,7 @@ import com.kma.warehouseManagement.entity.Product;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 
@@ -23,4 +24,9 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     void deleteProductById(Integer id);
 
     Optional<Product> findByIdAndStorageId(Integer id,Integer storageId);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE Product p SET p.soLuong = :soLuongConLai WHERE p.id = :id")
+    void updateProductById(Integer id, Integer soLuongConLai);
 }
