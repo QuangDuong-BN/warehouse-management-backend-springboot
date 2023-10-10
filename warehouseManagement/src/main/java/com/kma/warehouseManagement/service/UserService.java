@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -48,11 +49,14 @@ public class UserService {
         return "Token not provided or invalid";
     }
 
-    public ArrayList<Storage> getListStorage(HttpServletRequest request) throws AccessException {
+    public List<Storage> getListStorage(HttpServletRequest request) throws AccessException {
         String username = getUsernameByToken(request);
         RoleUser role = userRepository.findByUsername(username).get().getRole();
         if (role == RoleUser.STOCKER) {
             throw new AccessDeniedException("You don't have permission to access this resource");
+        }
+        if(role == RoleUser.ADMIN){
+            return  storageRepository.findAll();
         }
         return findAllByMarketId(userRepository.findByUsername(username).get().getMarketId());
     }
