@@ -38,6 +38,17 @@ public class UserService {
         throw new NullPointerException("Token not provided or invalid");
     }
 
+
+    public User getUserByToken(HttpServletRequest request) {
+
+        String token = request.getHeader("Authorization"); // Lấy token từ Header (thường được gửi trong header Authorization)
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7); // Loại bỏ "Bearer " từ token
+            String username = jwtService.extractUsername(token); // Sử dụng JwtService để lấy username từ token
+            return userRepository.findByUsername(username).get();
+        }
+        throw new NullPointerException("Token not provided or invalid");
+    }
     public String getUsernameByToken(HttpServletRequest request) {
 
         String token = request.getHeader("Authorization"); // Lấy token từ Header (thường được gửi trong header Authorization)
