@@ -169,6 +169,26 @@ public class OrderService {
         }
     }
 
+//    public void updateOrderById(HttpServletRequest request, Integer id, OrderDto orderDto) {
+//        cancelOrder(request, id);
+//
+//
+//        String username = userService.getUsernameByToken(request);
+//        RoleUser role = userRepository.findByUsername(username).get().getRole();
+//        if (role == RoleUser.SALER) {
+//            throw new AccessDeniedException("You don't have permission to access this resource");
+//        }
+//        Order order = orderRepository.findById(id).get();
+//        order.setOwnerId(orderDto.getOwnerId());
+//        order.setItemId(orderDto.getItemId());
+//        order.setStatus(orderDto.getStatus());
+//        order.setOption(orderDto.getOption());
+//        order.setMessage(orderDto.getMessage());
+//        order.setStorageId(orderDto.getStorageId());
+//        order.setMarketId(orderDto.getMarketId());
+//        orderRepository.save(order);
+//    }
+
     public void deleteOrderById(Integer id) {
         Integer lineItems = orderRepository.findById(id).get().getItemId();
         itemRepository.deleteByOrderId(lineItems);

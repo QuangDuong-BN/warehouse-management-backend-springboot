@@ -11,11 +11,13 @@ import com.kma.warehouseManagement.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.AccessException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -25,6 +27,8 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private StorageRepository storageRepository;
+    @Autowired
+    private  PasswordEncoder passwordEncoder;
 
 
     public Integer getMarketIdByToken(HttpServletRequest request) {
@@ -122,14 +126,18 @@ public class UserService {
     }
 
 
-//    public void updateUser(HttpServletRequest request, User user) {
-//        String username = getUsernameByToken(request);
-//        Role role = userRepository.findByUsername(username).get().getRole();
-//        if(role == Role.ADMIN){
-//            userRepository.updateById(user.getId(),user.getName(),user.getEmail(),user.getUsername(),user.getPassword());
-//        }
-//        else {
-//            throw new AccessDeniedException("You are not an ADMIN account");
-//        }
-//    }
+    public void updateUser(HttpServletRequest request, User newUser) {
+        String username = getUsernameByToken(request);
+        RoleUser role = userRepository.findByUsername(username).get().getRole();
+
+        if(role == RoleUser.ADMIN){
+            Optional<User> oldUser = userRepository.findByUsername(newUser.getUsername());
+            newUser.setId(oldUser.get().getId());
+            newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
+            userRepository.save(newUser);
+        }
+        else {
+            throw new AccessDeniedException("You are not an ADMIN account");
+        }
+    }
 }

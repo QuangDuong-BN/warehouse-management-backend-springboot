@@ -39,5 +39,11 @@ public class ProductController {
     public ResponseEntity<?> getList(HttpServletRequest request) throws AccessException {
         return ResponseEntity.ok(productService.getlist());
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getList(HttpServletRequest request,@PathVariable Integer id) throws AccessException {
+        return ResponseEntity.ok(productService.getProductById(id));
+    }
+
+
 
 }

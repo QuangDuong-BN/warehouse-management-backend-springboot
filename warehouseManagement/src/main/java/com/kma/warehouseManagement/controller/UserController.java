@@ -34,11 +34,11 @@ public class UserController {
         return ResponseEntity.ok("success");
     }
 
-//    @PutMapping("/update")
-//    public ResponseEntity<String> updateUser(HttpServletRequest request,@RequestBody User user) throws AccessException {
-//        userService.updateUser(request,user);
-//        return ResponseEntity.ok("success");
-//    }
+    @PutMapping("/update")
+    public ResponseEntity<String> updateUser(HttpServletRequest request,@RequestBody User user) throws AccessException {
+        userService.updateUser(request,user);
+        return ResponseEntity.ok("success");
+    }
 
 
 
