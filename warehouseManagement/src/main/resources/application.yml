@@ -1,9 +1,9 @@
 
 spring:
   datasource:
-    url: jdbc:mysql://sql12.freesqldatabase.com/sql12660604
-    username: sql12660604
-    password: QSLjKshlzJ
+    url: jdbc:mysql://sql12.freesqldatabase.com/sql12664622
+    username: sql12664622
+    password: duvKkBByIn
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:

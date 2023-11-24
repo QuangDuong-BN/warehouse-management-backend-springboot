@@ -26,7 +26,7 @@ public class AuthenticationService {
                 userRepository.countByUsername(request.getUsername()) >0) {
             throw new EmailAlreadyExistException("Email or username already exists");
         }
-        // xac dionh role
+        // xac dinh role
         RoleUser role;
         if (Objects.equals(request.getRole(), "SALER")) role = RoleUser.SALER;
         else role = RoleUser.STOCKER;
