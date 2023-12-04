@@ -28,7 +28,7 @@ public class UserService {
     @Autowired
     private StorageRepository storageRepository;
     @Autowired
-    private  PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
 
     public Integer getMarketIdByToken(HttpServletRequest request) {
@@ -53,6 +53,7 @@ public class UserService {
         }
         throw new NullPointerException("Token not provided or invalid");
     }
+
     public String getUsernameByToken(HttpServletRequest request) {
 
         String token = request.getHeader("Authorization"); // Lấy token từ Header (thường được gửi trong header Authorization)
@@ -70,8 +71,8 @@ public class UserService {
         if (role == RoleUser.STOCKER) {
             throw new AccessDeniedException("You don't have permission to access this resource");
         }
-        if(role == RoleUser.ADMIN){
-            return  storageRepository.findAll();
+        if (role == RoleUser.ADMIN) {
+            return storageRepository.findAll();
         }
         return findAllByMarketId(userRepository.findByUsername(username).get().getMarketId());
     }
@@ -130,13 +131,12 @@ public class UserService {
         String username = getUsernameByToken(request);
         RoleUser role = userRepository.findByUsername(username).get().getRole();
 
-        if(role == RoleUser.ADMIN){
+        if (role == RoleUser.ADMIN) {
             Optional<User> oldUser = userRepository.findByUsername(newUser.getUsername());
             newUser.setId(oldUser.get().getId());
             newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
             userRepository.save(newUser);
-        }
-        else {
+        } else {
             throw new AccessDeniedException("You are not an ADMIN account");
         }
     }

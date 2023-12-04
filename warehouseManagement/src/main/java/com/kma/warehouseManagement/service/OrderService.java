@@ -128,7 +128,6 @@ public class OrderService {
         }
     }
 
-
     //Accepted Order
     public void acceptOrder(HttpServletRequest request, Integer id) {
         String username = userService.getUsernameByToken(request);
@@ -139,8 +138,6 @@ public class OrderService {
         Order order = orderRepository.findById(id).get();
         order.setStatus(StatusOrder.ACCEPTED);
         orderRepository.save(order);
-
-
     }
 
     // cancel Order
@@ -193,6 +190,5 @@ public class OrderService {
         Integer lineItems = orderRepository.findById(id).get().getItemId();
         itemRepository.deleteByOrderId(lineItems);
         orderRepository.deleteById(id);
-
     }
 }

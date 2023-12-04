@@ -23,11 +23,11 @@ public class ProductController {
         return ResponseEntity.ok("success");
     }
 
-//    @PutMapping("/update")
-//    public ResponseEntity<String> updateProduct(@RequestBody Product product) {
-//        productService.updateProduct(product.getId(), product);
-//        return ResponseEntity.ok("success");
-//    }
+    @PutMapping("/update")
+    public ResponseEntity<String> updateProduct(@RequestBody Product product) {
+        productService.updateProduct(product);
+        return ResponseEntity.ok("success");
+    }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable("id") Integer id) {
@@ -43,7 +43,5 @@ public class ProductController {
     public ResponseEntity<?> getList(HttpServletRequest request,@PathVariable Integer id) throws AccessException {
         return ResponseEntity.ok(productService.getProductById(id));
     }
-
-
 
 }

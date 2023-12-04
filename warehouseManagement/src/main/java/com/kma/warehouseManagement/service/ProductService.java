@@ -16,9 +16,9 @@ public class ProductService {
         productRepository.save(product);
     }
 
-//    public void updateProduct(Integer id, Product product) {
-//        productRepository.updateProductById(id, product.getName(), product.getMaSp(), product.getSoLuong(), product.getDate(), product.getCategory());
-//    }
+    public void updateProduct(Product product) {
+        productRepository.save(product);
+    }
 
     public void deleteProduct(Integer id) {
         productRepository.deleteProductById(id);
