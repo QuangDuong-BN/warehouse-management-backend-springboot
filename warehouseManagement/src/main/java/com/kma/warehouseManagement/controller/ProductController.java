@@ -59,4 +59,8 @@ public class ProductController {
     public ResponseEntity<?> getStillExpired(HttpServletRequest request,@PathVariable("id") Integer id) throws AccessException {
         return ResponseEntity.ok(productService.getStillExpired(request, id));
     }
+    @GetMapping("/list-count-by-type")
+    public ResponseEntity<?> getListCountByType(HttpServletRequest request) throws AccessException {
+        return ResponseEntity.ok(productService.getListCountByType(request));
+    }
 }

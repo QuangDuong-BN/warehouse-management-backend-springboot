@@ -1,8 +1,8 @@
 package com.kma.warehouseManagement.repository;
 
 import com.kma.warehouseManagement.entity.Product;
+import com.kma.warehouseManagement.entityDto.ProductCountResultDt0;
 import com.kma.warehouseManagement.enumCustom.TypeProduct;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -43,4 +43,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     @Query("SELECT p FROM Product p WHERE p.date >= :currentDate AND p.date < :currentDate1")
     List<Product> getStillExpired(LocalDate currentDate,LocalDate currentDate1);
+
+    @Query("SELECT NEW com.kma.warehouseManagement.entityDto.ProductCountResultDt0(p.type, COUNT(p)) FROM Product p GROUP BY p.type")
+    List<ProductCountResultDt0> getListCountByType();
 }

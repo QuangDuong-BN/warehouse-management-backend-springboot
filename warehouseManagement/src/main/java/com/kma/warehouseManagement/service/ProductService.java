@@ -52,4 +52,8 @@ public class ProductService {
         LocalDate currentDate1 = LocalDate.now().plusDays(id);
         return productRepository.getStillExpired(currentDate,currentDate1);
     }
+
+    public Object getListCountByType(HttpServletRequest request) {
+        return productRepository.getListCountByType();
+    }
 }
