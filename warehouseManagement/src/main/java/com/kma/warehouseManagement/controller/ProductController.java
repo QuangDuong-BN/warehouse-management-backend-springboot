@@ -2,6 +2,7 @@ package com.kma.warehouseManagement.controller;
 
 import com.kma.warehouseManagement.entity.Product;
 import com.kma.warehouseManagement.entity.Storage;
+import com.kma.warehouseManagement.enumCustom.TypeProduct;
 import com.kma.warehouseManagement.service.ProductService;
 import com.kma.warehouseManagement.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,12 +37,26 @@ public class ProductController {
     }
 
     @GetMapping("/getlist")
-    public ResponseEntity<?> getList(HttpServletRequest request) throws AccessException {
-        return ResponseEntity.ok(productService.getlist());
+    public ResponseEntity<?> getList(HttpServletRequest request,@RequestParam("type") TypeProduct type) throws AccessException {
+        return ResponseEntity.ok(productService.getlist(type));
     }
     @GetMapping("/{id}")
     public ResponseEntity<?> getList(HttpServletRequest request,@PathVariable Integer id) throws AccessException {
         return ResponseEntity.ok(productService.getProductById(id));
     }
 
+    @GetMapping("/expiration")
+    public ResponseEntity<?> getExpiration(HttpServletRequest request) throws AccessException {
+        return ResponseEntity.ok(productService.getExpiration(request));
+    }
+
+    @GetMapping("/inventory-quantity")
+    public ResponseEntity<?> getInventoryQuantity(HttpServletRequest request) throws AccessException {
+        return ResponseEntity.ok(productService.getInventoryQuantity(request));
+    }
+
+    @GetMapping("still-expired/{id}")
+    public ResponseEntity<?> getStillExpired(HttpServletRequest request,@PathVariable("id") Integer id) throws AccessException {
+        return ResponseEntity.ok(productService.getStillExpired(request, id));
+    }
 }

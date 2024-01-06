@@ -1,5 +1,6 @@
 package com.kma.warehouseManagement.entity;
 
+import com.kma.warehouseManagement.enumCustom.TypeProduct;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

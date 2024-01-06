@@ -25,9 +25,5 @@ public interface StorageRepository extends JpaRepository<Storage, Integer> {
 
     @Query("SELECT s FROM Storage s WHERE s.marketId = :marketId")
     ArrayList<Storage> findAllByMarketId(Integer marketId);
-
-
     // su dung trong check don hang
-
-
 }
