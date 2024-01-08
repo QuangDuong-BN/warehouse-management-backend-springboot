@@ -36,7 +36,7 @@ public class ProductController {
         return ResponseEntity.ok("success");
     }
 
-    @GetMapping("/getlist")
+    @PostMapping("/getlist")
     public ResponseEntity<?> getList(HttpServletRequest request,@RequestParam("type") TypeProduct type) throws AccessException {
         return ResponseEntity.ok(productService.getlist(type));
     }
