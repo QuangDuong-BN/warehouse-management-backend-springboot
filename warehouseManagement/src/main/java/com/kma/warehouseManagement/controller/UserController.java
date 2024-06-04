@@ -2,6 +2,7 @@ package com.kma.warehouseManagement.controller;
 
 import com.kma.warehouseManagement.entity.Storage;
 import com.kma.warehouseManagement.entity.User;
+import com.kma.warehouseManagement.service.RateLimiting;
 import com.kma.warehouseManagement.service.StorageService;
 import com.kma.warehouseManagement.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,6 +17,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private RateLimiting rateLiming;
 
     @GetMapping("/getList")
     public ResponseEntity<Iterable<User>> getList(HttpServletRequest request) throws AccessException {
@@ -24,6 +27,7 @@ public class UserController {
 
     @PostMapping("/add")
     public ResponseEntity<String> addUser(HttpServletRequest request,@RequestBody User user) throws AccessException {
+        rateLiming.processRequest();
         userService.addUser(request,user);
         return ResponseEntity.ok("success");
     }
@@ -39,9 +43,5 @@ public class UserController {
         userService.updateUser(request,user);
         return ResponseEntity.ok("success");
     }
-
-
-
-
 
 }

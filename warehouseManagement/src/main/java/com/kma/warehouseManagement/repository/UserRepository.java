@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+
 import java.util.Optional;
 
 @Repository
@@ -38,8 +38,4 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Modifying
     @Query("UPDATE User u SET u.name = :name, u.email = :email, u.username = :username WHERE u.id = :id")
     void updateById( @Param("id") Integer id, @Param("name") String name, @Param("email") String email, @Param("username") String username);
-
-
-    //
-
 }
